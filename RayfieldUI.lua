@@ -1636,23 +1636,29 @@ function RayfieldLibrary:CreateWindow(Settings)
 	local Passthrough = false
 	Topbar.Title.Text = Settings.Name
 
--- [톱니바퀴 설정 버튼 추가 로직]
+-- [톱니바퀴 설정 버튼 추가 로직 - 위치 강제 조정 버전]
 	if Settings.ConfigurationSaving and Settings.ConfigurationSaving.ShowConfigurationTab then
 		local SettingsButton = Topbar.Search:Clone()
 		SettingsButton.Name = "Settings"
 		SettingsButton.Visible = true
 		SettingsButton.Parent = Topbar
 		SettingsButton.Image = "rbxassetid://7072721666" -- 톱니바퀴 아이콘
-		SettingsButton.Position = UDim2.new(1, -70, 0.5, 0) -- 돋보기 옆자리
+		
+		-- 위치를 돋보기(Search)보다 왼쪽으로 확실히 밀어버림
+		SettingsButton.Position = UDim2.new(1, -100, 0.5, 0) 
+		SettingsButton.ZIndex = 10 -- 다른 아이콘보다 위에 오도록 설정
 		
 		-- 클릭 시 설정 탭으로 이동
 		SettingsButton.MouseButton1Click:Connect(function()
 			if Elements:FindFirstChild('Rayfield Settings') then
 				Elements.UIPageLayout:JumpTo(Elements['Rayfield Settings'])
+			else
+				-- 혹시라도 탭 이름을 못 찾을 경우를 대비해 알림 띄움
+				RayfieldLibrary:Notify({Title = "설정 창 오류", Content = "설정 탭을 찾을 수 없습니다.", Duration = 3})
 			end
 		end)
 		
-		-- 마우스 호버 효과
+		-- 마우스 효과
 		SettingsButton.MouseEnter:Connect(function()
 			TweenService:Create(SettingsButton, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {ImageTransparency = 0}):Play()
 		end)
