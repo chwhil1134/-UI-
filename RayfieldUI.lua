@@ -2629,13 +2629,16 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 			Input.InputFrame.BackgroundColor3 = SelectedTheme.InputBackground
 			Input.InputFrame.UIStroke.Color = SelectedTheme.InputStroke
+			-- [수정] 텍스트가 상자 밖으로 튀어나오지 않게 잘라냄
+			Input.InputFrame.ClipsDescendants = true
 
 			TweenService:Create(Input, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {BackgroundTransparency = 0}):Play()
 			TweenService:Create(Input.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {Transparency = 0}):Play()
 			TweenService:Create(Input.Title, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {TextTransparency = 0}):Play()	
 
 			Input.InputFrame.InputBox.PlaceholderText = InputSettings.PlaceholderText
-			Input.InputFrame.Size = UDim2.new(0, Input.InputFrame.InputBox.TextBounds.X + 24, 0, 30)
+			-- [수정] 초기 생성 시 너비를 최대 300으로 제한
+			Input.InputFrame.Size = UDim2.new(0, math.clamp(Input.InputFrame.InputBox.TextBounds.X + 24, 30, 300), 0, 30)
 
 			Input.InputFrame.InputBox.FocusLost:Connect(function()
 				local Success, Response = pcall(function()
@@ -2673,7 +2676,8 @@ function RayfieldLibrary:CreateWindow(Settings)
 			end)
 
 			Input.InputFrame.InputBox:GetPropertyChangedSignal("Text"):Connect(function()
-				TweenService:Create(Input.InputFrame, TweenInfo.new(0.55, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {Size = UDim2.new(0, Input.InputFrame.InputBox.TextBounds.X + 24, 0, 30)}):Play()
+				-- [수정] 글자 입력 시에도 너비를 최대 300으로 제한
+				TweenService:Create(Input.InputFrame, TweenInfo.new(0.55, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {Size = UDim2.new(0, math.clamp(Input.InputFrame.InputBox.TextBounds.X + 24, 30, 300), 0, 30)}):Play()
 			end)
 
 			function InputSettings:Set(text)
