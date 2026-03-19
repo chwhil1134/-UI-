@@ -1636,17 +1636,18 @@ function RayfieldLibrary:CreateWindow(Settings)
 	local Passthrough = false
 	Topbar.Title.Text = Settings.Name
 
--- [톱니바퀴 설정 버튼 추가 - 돋보기 안 건드리는 버전]
+-- [여기에 아래 코드를 복사해서 넣어]
 	if Settings.ConfigurationSaving and Settings.ConfigurationSaving.ShowConfigurationTab then
-		local SettingsButton = Instance.new("ImageButton") -- Clone 대신 새로 생성
+		local SettingsButton = Instance.new("ImageButton")
 		SettingsButton.Name = "Settings"
 		SettingsButton.BackgroundTransparency = 1
-		SettingsButton.Size = UDim2.new(0, 20, 0, 20)
+		SettingsButton.Size = UDim2.new(0, 25, 0, 25)
 		SettingsButton.Image = "rbxassetid://7072721666"
 		SettingsButton.ImageTransparency = 0.8
-		SettingsButton.ImageColor3 = SelectedTheme.TextColor
-		SettingsButton.AnchorPoint = Vector2.new(0, 0.5)
-		SettingsButton.Position = UDim2.new(1, -100, 0.5, 0) -- 돋보기(보통 -40~-70)와 안 겹치게 왼쪽으로
+		SettingsButton.ImageColor3 = Color3.fromRGB(255, 255, 255)
+		SettingsButton.AnchorPoint = Vector2.new(0.5, 0.5)
+		SettingsButton.Position = UDim2.new(1, -100, 0.5, 0)
+		SettingsButton.ZIndex = 10
 		SettingsButton.Parent = Topbar
 		
 		SettingsButton.MouseButton1Click:Connect(function()
