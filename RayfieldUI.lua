@@ -2626,6 +2626,8 @@ function RayfieldLibrary:CreateWindow(Settings)
 			Input.Title.TextTransparency = 1
 
 			Input.InputFrame.InputBox.Text = InputSettings.CurrentValue or ''
+			-- [수정] 텍스트 정렬을 항상 왼쪽으로 고정 (긴 링크 스크롤/드래그 UX 개선)
+			Input.InputFrame.InputBox.TextXAlignment = Enum.TextXAlignment.Left
 
 			Input.InputFrame.BackgroundColor3 = SelectedTheme.InputBackground
 			Input.InputFrame.UIStroke.Color = SelectedTheme.InputStroke
@@ -2637,7 +2639,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 			TweenService:Create(Input.Title, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {TextTransparency = 0}):Play()	
 
 			Input.InputFrame.InputBox.PlaceholderText = InputSettings.PlaceholderText
-			-- [수정] 초기 생성 시 너비를 최대 300으로 제한
+			-- [수정] math.clamp를 사용해 입력창 너비가 최대 300을 넘지 않도록 고정
 			Input.InputFrame.Size = UDim2.new(0, math.clamp(Input.InputFrame.InputBox.TextBounds.X + 24, 30, 300), 0, 30)
 
 			Input.InputFrame.InputBox.FocusLost:Connect(function()
@@ -2676,7 +2678,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 			end)
 
 			Input.InputFrame.InputBox:GetPropertyChangedSignal("Text"):Connect(function()
-				-- [수정] 글자 입력 시에도 너비를 최대 300으로 제한
+				-- [수정] 글자를 입력할 때도 실시간으로 최대 너비를 300으로 제한함
 				TweenService:Create(Input.InputFrame, TweenInfo.new(0.55, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {Size = UDim2.new(0, math.clamp(Input.InputFrame.InputBox.TextBounds.X + 24, 30, 300), 0, 30)}):Play()
 			end)
 
