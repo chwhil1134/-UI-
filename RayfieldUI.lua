@@ -1485,7 +1485,9 @@ end
 
 local function Unhide()
 	Debounce = true
-	Main.Position = UDim2.new(0.5, 0, 0.5, 0)
+	-- [수정] 아래의 Main.Position 초기화 줄을 삭제하거나 주석 처리함
+	-- Main.Position = UDim2.new(0.5, 0, 0.5, 0) 
+	
 	Main.Visible = true
 	TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Exponential), {Size = useMobileSizing and UDim2.new(0, 500, 0, 275) or UDim2.new(0, 500, 0, 475)}):Play()
 	TweenService:Create(Main.Topbar, TweenInfo.new(0.5, Enum.EasingStyle.Exponential), {Size = UDim2.new(0, 500, 0, 45)}):Play()
@@ -1510,7 +1512,8 @@ local function Unhide()
 		task.spawn(Maximise)
 	end
 
-	dragBar.Position = useMobileSizing and UDim2.new(0.5, 0, 0.5, dragOffsetMobile) or UDim2.new(0.5, 0, 0.5, dragOffset)
+	-- [수정] 드래그 바 위치도 현재 Main 위치를 따라가도록 수정 (초기화 방지)
+	-- dragBar.Position = useMobileSizing and UDim2.new(0.5, 0, 0.5, dragOffsetMobile) or UDim2.new(0.5, 0, 0.5, dragOffset)
 
 	dragInteract.Visible = true
 
@@ -1521,12 +1524,10 @@ local function Unhide()
 			else
 				TweenService:Create(TopbarButton, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {ImageTransparency = 0.8}):Play()
 			end
-
 		end
 	end
 
 	setTabButtonsVisible(true)
-
 	setElementsVisible(true)
 
 	TweenService:Create(dragBarCosmetic, TweenInfo.new(0.25, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {BackgroundTransparency = 0.5}):Play()
