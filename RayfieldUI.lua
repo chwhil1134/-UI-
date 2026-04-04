@@ -2670,7 +2670,7 @@ function Tab:CreateInput(InputSettings)
 			TweenService:Create(Input.Title, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {TextTransparency = 0}):Play()	
 
 			Input.InputFrame.InputBox.PlaceholderText = InputSettings.PlaceholderText
-			Input.InputFrame.Size = UDim2.new(0, math.min(Input.InputFrame.InputBox.TextBounds.X + 24, 180), 0, 30)
+			Input.InputFrame.Size = UDim2.new(0, Input.InputFrame.InputBox.TextBounds.X + 24, 0, 30)
 
 			Input.InputFrame.InputBox.FocusLost:Connect(function()
 				local Success, Response = pcall(function()
